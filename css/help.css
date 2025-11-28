@@ -1,0 +1,534 @@
+/**
+ * CampusDigs Kenya - Help & Support Pages Styles
+ * Light, illustration-based design with clear visual hierarchy
+ */
+
+:root {
+    --primary-green: #059669;
+    --primary-green-dark: #047857;
+    --primary-green-light: #10b981;
+    --secondary-gold: #d97706;
+    --text-dark: #1f2937;
+    --text-muted: #6b7280;
+    --bg-light: #f9fafb;
+    --bg-lighter: #ffffff;
+    --border-color: #e5e7eb;
+}
+
+/* HERO SECTION */
+
+.help-hero {
+    position: relative;
+    background: linear-gradient(135deg, rgba(5, 150, 105, 0.05) 0%, rgba(217, 119, 6, 0.05) 100%);
+    padding: 4rem 0 3rem;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.help-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background-image: url('https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&h=600&fit=crop');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.15;
+    z-index: 0;
+}
+
+.help-hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.help-hero h1 {
+    font-size: 2.75rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+}
+
+.help-hero .lead {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    max-width: 600px;
+}
+
+.hero-image {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+/* SECTION CARDS */
+
+.help-card {
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    background: var(--bg-lighter);
+    height: 100%;
+    overflow: hidden;
+}
+
+.help-card:hover {
+    border-color: var(--primary-green);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(5, 150, 105, 0.15);
+}
+
+.help-card-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    margin: 0 auto 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.help-card:hover .help-card-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.icon-primary {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.2) 100%);
+    color: #3b82f6;
+}
+
+.icon-success {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.2) 100%);
+    color: #10b981;
+}
+
+.icon-info {
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(14, 165, 233, 0.2) 100%);
+    color: #0ea5e9;
+}
+
+.icon-warning {
+    background: linear-gradient(135deg, rgba(217, 119, 6, 0.1) 0%, rgba(217, 119, 6, 0.2) 100%);
+    color: #d97706;
+}
+
+.icon-danger {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.2) 100%);
+    color: #ef4444;
+}
+
+.help-card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+}
+
+.help-card-text {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+/* SAFETY TIPS SECTION */
+
+.safety-section {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(217, 119, 6, 0.05) 100%);
+    padding: 3rem 0;
+    margin-top: 3rem;
+    border-radius: 16px;
+}
+
+.safety-tip-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.safety-tip-card:hover {
+    border-color: #ef4444;
+    box-shadow: 0 10px 30px rgba(239, 68, 68, 0.1);
+    transform: translateY(-4px);
+}
+
+.safety-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    color: #ef4444;
+    margin-bottom: 1rem;
+}
+
+.safety-tip-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.75rem;
+}
+
+.safety-tip-text {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* CONTACT SECTION */
+
+.contact-method {
+    background: var(--bg-lighter);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.contact-method:hover {
+    border-color: var(--primary-green);
+    box-shadow: 0 10px 30px rgba(5, 150, 105, 0.1);
+    transform: translateY(-4px);
+}
+
+.contact-icon-wrapper {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.contact-icon-primary {
+    background: linear-gradient(135deg, rgba(5, 150, 105, 0.1) 0%, rgba(5, 150, 105, 0.2) 100%);
+    color: var(--primary-green);
+}
+
+.contact-icon-success {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(34, 197, 94, 0.2) 100%);
+    color: #22c55e;
+}
+
+.contact-icon-info {
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(14, 165, 233, 0.2) 100%);
+    color: #0ea5e9;
+}
+
+.contact-method h5 {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.contact-method p {
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+}
+
+.contact-method small {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+/* FAQ SECTION */
+
+.faq-section {
+    margin-top: 3rem;
+}
+
+.faq-section .accordion-item {
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+
+.faq-section .accordion-button {
+    font-weight: 600;
+    color: var(--text-dark);
+    background: var(--bg-lighter);
+    padding: 1.25rem 1.5rem;
+    font-size: 1.1rem;
+}
+
+.faq-section .accordion-button:not(.collapsed) {
+    background: linear-gradient(135deg, rgba(5, 150, 105, 0.05) 0%, rgba(217, 119, 6, 0.05) 100%);
+    color: var(--primary-green);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.faq-section .accordion-button:focus {
+    box-shadow: none;
+    border-color: var(--primary-green);
+}
+
+.faq-section .accordion-button::after {
+    background-size: 1.25rem;
+}
+
+.faq-section .accordion-body {
+    padding: 1.5rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-size: 1rem;
+}
+
+/* CTA SECTION */
+
+.help-cta {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-dark) 100%);
+    color: white;
+    border-radius: 16px;
+    padding: 3rem;
+    text-align: center;
+    margin-top: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.help-cta::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+.help-cta h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.help-cta p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+    position: relative;
+    z-index: 1;
+}
+
+.help-cta .btn {
+    position: relative;
+    z-index: 1;
+}
+
+/* SMOOTH SCROLLING & NAVIGATION */
+
+html {
+    scroll-behavior: smooth;
+}
+
+.scroll-margin {
+    scroll-margin-top: 100px;
+}
+
+/* Back to top button hover effect */
+#backToTop {
+    transition: all 0.3s ease;
+}
+
+#backToTop:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Navigation button improvements */
+.btn-outline-primary,
+.btn-primary {
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover,
+.btn-primary:hover {
+    transform: translateY(-2px);
+}
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 767.98px) {
+    .help-hero {
+        padding: 2.5rem 0 2rem;
+    }
+
+    .help-hero h1 {
+        font-size: 2rem;
+    }
+
+    .help-hero .lead {
+        font-size: 1rem;
+    }
+
+    .hero-image {
+        max-width: 100%;
+        margin-top: 1.5rem;
+    }
+
+    .help-hero::before {
+        width: 100%;
+        opacity: 0.08;
+    }
+
+    .help-card-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+
+    .help-card-title {
+        font-size: 1.25rem;
+    }
+
+    .safety-section {
+        padding: 2rem 0;
+        margin-top: 2rem;
+    }
+
+    .safety-tip-card {
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .help-cta {
+        padding: 2rem 1.5rem;
+    }
+
+    .help-cta h3 {
+        font-size: 1.5rem;
+    }
+
+    .help-cta p {
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .help-hero h1 {
+        font-size: 2.25rem;
+    }
+
+    .hero-image {
+        max-width: 400px;
+    }
+}
+
+/* UTILITY CLASSES */
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+}
+
+.btn-outline-primary {
+    border-color: var(--primary-green);
+    color: var(--primary-green);
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(5, 150, 105, 0.3);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-dark) 100%);
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--primary-green-dark) 0%, var(--primary-green) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(5, 150, 105, 0.3);
+}
+
+.btn-light {
+    background: white;
+    border: 2px solid var(--border-color);
+    color: var(--text-dark);
+    transition: all 0.3s ease;
+}
+
+.btn-light:hover {
+    border-color: var(--primary-green);
+    color: var(--primary-green);
+    transform: translateY(-2px);
+}
+
+/* ACCESSIBILITY */
+
+.help-card:focus,
+.safety-tip-card:focus,
+.contact-method:focus {
+    outline: 3px solid var(--primary-green);
+    outline-offset: 2px;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .help-card,
+    .safety-tip-card,
+    .contact-method {
+        border-width: 3px;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .help-card,
+    .safety-tip-card,
+    .contact-method,
+    .btn,
+    .help-card-icon,
+    .safety-icon {
+        transition: none !important;
+        transform: none !important;
+    }
+}
+
+/* Screen reader only */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}

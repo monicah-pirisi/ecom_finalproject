@@ -1,0 +1,289 @@
+/**
+ * CampusDigs Kenya - Property Details Page Styles
+ * Professional image gallery and property display
+ */
+
+:root {
+    --primary-green: #059669;
+    --primary-green-dark: #047857;
+    --primary-green-light: #10b981;
+    --secondary-gold: #d97706;
+    --secondary-gold-dark: #b45309;
+    --secondary-gold-light: #f59e0b;
+    --text-dark: #1f2937;
+    --text-muted: #6b7280;
+    --bg-light: #f9fafb;
+}
+
+/* IMAGE GALLERY ENHANCEMENTS */
+
+.property-main-image {
+    transition: transform 0.3s ease;
+}
+
+.property-main-image:hover {
+    transform: scale(1.02);
+}
+
+/* Thumbnail Gallery Scrollbar */
+#thumbnailGallery::-webkit-scrollbar {
+    height: 8px;
+}
+
+#thumbnailGallery::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+#thumbnailGallery::-webkit-scrollbar-thumb {
+    background: var(--primary-green);
+    border-radius: 10px;
+}
+
+#thumbnailGallery::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-green-dark);
+}
+
+/* LIGHTBOX MODAL STYLES */
+
+#imageLightbox .modal-content {
+    background-color: rgba(0, 0, 0, 0.95);
+}
+
+#imageLightbox .btn-light {
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+#imageLightbox .btn-light:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Image loading animation */
+#lightboxImage {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* PROPERTY INFORMATION CARDS */
+
+.card {
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Safety Score Badge */
+.alert-info {
+    background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%);
+    border-left: 4px solid #3b82f6;
+}
+
+/* AMENITIES & FEATURES */
+
+.amenity-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-light);
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+/* BOOKING CARD ENHANCEMENTS */
+
+.landlord-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+    border: 1px solid #e5e7eb;
+}
+
+.landlord-card .card-body {
+    padding: 1.5rem;
+}
+
+/* Price Display */
+.landlord-card h4 {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* LANDLORD INFORMATION */
+
+.rounded-circle {
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+}
+
+/* Contact Buttons */
+.btn-outline-primary,
+.btn-success {
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover,
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* WhatsApp Button */
+.btn-success {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    border: none;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #128C7E 0%, #25D366 100%);
+}
+
+/* RESPONSIVE DESIGN */
+
+/* Mobile devices */
+@media (max-width: 767.98px) {
+    .property-main-image {
+        height: 300px !important;
+    }
+
+    .property-thumbnail {
+        height: 80px !important;
+    }
+
+    .image-counter {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    .zoom-icon {
+        width: 35px !important;
+        height: 35px !important;
+        font-size: 14px;
+    }
+
+    .landlord-card {
+        position: static !important;
+        margin-bottom: 2rem;
+    }
+
+    #imageLightbox .btn-light {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 14px;
+    }
+}
+
+/* Tablets */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .property-main-image {
+        height: 400px !important;
+    }
+
+    .property-thumbnail {
+        height: 100px !important;
+    }
+}
+
+/* Desktop */
+@media (min-width: 992px) {
+    .property-thumbnail {
+        height: 120px !important;
+    }
+}
+
+/* PRINT STYLES */
+
+@media print {
+    .zoom-icon,
+    .image-counter,
+    .btn-wishlist,
+    .landlord-card form,
+    .alert-warning {
+        display: none !important;
+    }
+
+    .property-main-image {
+        height: 400px !important;
+    }
+
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+    }
+}
+
+/* ACCESSIBILITY */
+
+.property-thumbnail:focus,
+.zoom-icon:focus,
+#imageLightbox .btn-light:focus {
+    outline: 2px solid var(--primary-green);
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .property-thumbnail {
+        border-width: 4px;
+    }
+
+    .property-thumbnail.active {
+        border-color: #000;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .property-main-image,
+    .property-thumbnail,
+    .card,
+    .btn-light,
+    #lightboxImage {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* LOADING STATES */
+
+.property-thumbnail[loading="lazy"] {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* VERIFIED BADGE */
+
+.badge.bg-success {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-dark) 100%) !important;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3);
+}

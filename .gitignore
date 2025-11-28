@@ -1,0 +1,73 @@
+# ===================================
+# Campus Digs - Git Ignore File
+# ===================================
+
+# Sensitive Configuration Files
+includes/db_cred.php
+includes/paystack_config.php
+includes/config.php
+
+# Environment Files
+.env
+.env.local
+.env.production
+
+# User Uploaded Files
+uploads/
+uploads/**/*
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.mp4
+# But keep example/default images in assets
+!assets/**/*
+!images/**/*
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+
+# Claude Code Settings
+.claude/
+.claude/**/*
+
+# Logs and Temp Files
+*.log
+*.tmp
+*.temp
+error_log
+debug.log
+
+# PHP Composer (if you add it later)
+/vendor/
+composer.phar
+composer.lock
+
+# Node Modules (if you add npm later)
+node_modules/
+package-lock.json
+
+# System Files
+*.swp
+*.swo
+*~
+.DS_Store
+desktop.ini
+
+# Windows Reserved Names
+NUL
+CON
+PRN
+AUX
+COM1
+LPT1
+
+# Backup Files
+*.bak
+*.backup
+*.old

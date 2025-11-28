@@ -1,0 +1,110 @@
+═══════════════════════════════════════════════════════════
+    CAMPUSDIGS KENYA - DEPLOYMENT CHECKLIST
+═══════════════════════════════════════════════════════════
+
+BEFORE DEPLOYMENT:
+═══════════════════════════════════════════════════════════
+
+DATABASE PREPARATION:
+□ 1. Export campus_digs.sql from localhost phpMyAdmin
+□ 2. Open campus_digs.sql in text editor
+□ 3. Find/Replace: campus_digs → ecommerce_2025A_monicah_lekupe
+□ 4. Save modified SQL file
+
+FILE PREPARATION:
+□ 5. Edit includes/config.php - Update BASE_URL (line 123)
+□ 6. Verify includes/db_cred.php contains:
+     SERVER: localhost
+     USERNAME: monicah.lekupe
+     PASSWD: Amelia@2026
+     DATABASE: ecommerce_2025A_monicah_lekupe
+
+═══════════════════════════════════════════════════════════
+
+DEPLOYMENT STEPS:
+═══════════════════════════════════════════════════════════
+
+SERVER DATABASE:
+□ 7. Login to server phpMyAdmin
+□ 8. Select ecommerce_2025A_monicah_lekupe database
+□ 9. Go to Import tab
+□ 10. Upload modified campus_digs.sql
+□ 11. Click Go to import
+
+FILE UPLOAD:
+□ 12. Connect to server via FTP/SFTP
+□ 13. Upload ALL folders and files EXCEPT:
+      - .git/
+      - .vscode/
+      - *.md files
+      - campus_digs.sql
+□ 14. Ensure includes/db_cred.php is uploaded
+
+PERMISSIONS:
+□ 15. Set uploads/ folder to 755
+□ 16. Set uploads/properties/ to 755
+□ 17. Set uploads/student_ids/ to 755
+□ 18. Set uploads/landlord_docs/ to 755
+□ 19. Create logs/ folder and set to 755
+
+═══════════════════════════════════════════════════════════
+
+TESTING:
+═══════════════════════════════════════════════════════════
+
+□ 20. Visit site URL - Should show login page
+□ 21. Test admin login
+□ 22. Test student login
+□ 23. Test landlord login
+□ 24. Browse properties
+□ 25. Test AI recommendations
+□ 26. Test booking creation
+□ 27. Test review system
+
+OPTIONAL (For Live Payments):
+□ 28. Get live Paystack keys from paystack.com
+□ 29. Update includes/config.php lines 169-170
+
+═══════════════════════════════════════════════════════════
+
+CRITICAL FILES FOR DEPLOYMENT:
+═══════════════════════════════════════════════════════════
+
+MUST HAVE on server:
+✓ includes/config.php
+✓ includes/db_cred.php  ← CONNECTS TO SERVER DATABASE
+✓ includes/core.php
+✓ includes/paystack_config.php
+
+ALL other files get database connection from config.php!
+
+═══════════════════════════════════════════════════════════
+
+DATABASE CREDENTIALS:
+═══════════════════════════════════════════════════════════
+
+LOCALHOST:
+  Server: localhost
+  User: root
+  Pass: (empty)
+  Database: campus_digs
+
+SERVER:
+  Server: localhost
+  User: monicah.lekupe
+  Pass: Amelia@2026
+  Database: ecommerce_2025A_monicah_lekupe
+
+═══════════════════════════════════════════════════════════
+
+NOTES:
+- The system auto-detects environment
+- Localhost = no db_cred.php = uses campus_digs
+- Server = has db_cred.php = uses ecommerce_2025A_monicah_lekupe
+- NO need to modify individual PHP files!
+
+═══════════════════════════════════════════════════════════
+Deployment Date: _______________
+Server URL: _______________
+Status: □ Success  □ Issues (see DEPLOYMENT_GUIDE.md)
+═══════════════════════════════════════════════════════════
