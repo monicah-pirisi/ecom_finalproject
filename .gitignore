@@ -12,29 +12,17 @@ includes/config.php
 .env.local
 .env.production
 
-# User Uploaded Files
-uploads/
-uploads/**/*
-*.jpg
-*.jpeg
-*.png
-*.gif
-*.mp4
-# But keep example/default images in assets
-!assets/**/*
-!images/**/*
+# User Uploaded Files (only ignore uploads directory, NOT project assets)
+/uploads/
 
 # IDE and Editor Files
 .vscode/
 .idea/
+.claude/
 *.sublime-project
 *.sublime-workspace
 .DS_Store
 Thumbs.db
-
-# Claude Code Settings
-.claude/
-.claude/**/*
 
 # Logs and Temp Files
 *.log
@@ -42,6 +30,11 @@ Thumbs.db
 *.temp
 error_log
 debug.log
+
+# Test Files
+test_*.php
+*_test.php
+reset_lockout.php
 
 # PHP Composer (if you add it later)
 /vendor/
