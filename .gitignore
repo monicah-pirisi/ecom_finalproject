@@ -4,7 +4,7 @@
 
 # Sensitive Configuration Files
 includes/db_cred.php
-includes/paystack_config.php
+# includes/paystack_config.php - Including this file (has test keys only)
 includes/config.php
 
 # Environment Files
