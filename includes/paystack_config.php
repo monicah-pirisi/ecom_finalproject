@@ -14,14 +14,14 @@
 if (!defined('PAYSTACK_SECRET_KEY')) {
     $secret_key = getenv('PAYSTACK_SECRET_KEY_LIVE');
     if (!$secret_key || ENVIRONMENT === 'development') {
-        $secret_key = 'sk_test_914dfc2481162415ff5c512260511569b00e73d7'; // Test key
+        $secret_key = 'sk_test_914dfc2481162415ff5c512260511569b00e73d7'; // Your test key
     }
     define('PAYSTACK_SECRET_KEY', $secret_key);
 }
 if (!defined('PAYSTACK_PUBLIC_KEY')) {
     $public_key = getenv('PAYSTACK_PUBLIC_KEY_LIVE');
     if (!$public_key || ENVIRONMENT === 'development') {
-        $public_key = 'pk_test_6b4a00d825eb974aad18ecf340d9daf6e3859aaf'; // Test key
+        $public_key = 'pk_test_6b4a00d825eb974aad18ecf340d9daf6e3859aaf'; // Your test key
     }
     define('PAYSTACK_PUBLIC_KEY', $public_key);
 }
