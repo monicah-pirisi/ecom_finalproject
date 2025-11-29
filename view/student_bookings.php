@@ -264,6 +264,7 @@ $flash = getFlashMessage();
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/dashboard.js"></script>
+    <script src="../js/bookings.js"></script>
     <script>
         let selectedRating = 0;
         let reviewModal = null;

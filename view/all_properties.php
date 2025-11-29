@@ -170,12 +170,12 @@ $flash = getFlashMessage();
                         
                         <!-- Action Buttons -->
                         <div class="px-3 mb-3 d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-sm">
+                            <button type="submit" class="btn btn-primary btn-sm" style="display:none;">
                                 <i class="fas fa-filter"></i> Apply Filters
                             </button>
-                            <a href="all_properties.php" class="btn btn-outline-secondary btn-sm">
+                            <button type="button" id="clearFiltersBtn" class="btn btn-outline-secondary btn-sm">
                                 <i class="fas fa-redo"></i> Clear All
-                            </a>
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -194,10 +194,10 @@ $flash = getFlashMessage();
                                     <i class="fas fa-home text-primary"></i> Browse Properties
                                 <?php endif; ?>
                             </h1>
-                            <p class="text-muted">
+                            <p class="text-muted" id="resultsInfo">
                                 Showing <?php echo count($properties); ?> of <?php echo $totalProperties; ?> properties
                                 <?php if ($searchQuery): ?>
-                                    for "<?php echo htmlspecialchars($searchQuery); ?>"
+                                    for "<strong><?php echo htmlspecialchars($searchQuery); ?></strong>"
                                 <?php endif; ?>
                             </p>
                         </div>
@@ -214,17 +214,18 @@ $flash = getFlashMessage();
                     <!-- Search Bar & Sort -->
                     <div class="row mb-4">
                         <div class="col-md-8">
-                            <form method="GET" action="all_properties.php" class="input-group">
-                                <input type="text" name="q" class="form-control" 
+                            <form id="searchForm" method="GET" action="all_properties.php" class="input-group">
+                                <input type="text" name="q" class="form-control"
                                        placeholder="Search by location, property name, or keywords..."
-                                       value="<?php echo htmlspecialchars($searchQuery); ?>">
+                                       value="<?php echo htmlspecialchars($searchQuery); ?>"
+                                       autocomplete="off">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-search"></i> Search
                                 </button>
                             </form>
                         </div>
                         <div class="col-md-4">
-                            <select name="sort_by" class="form-select" onchange="this.form.submit()" form="filterForm">
+                            <select name="sort_by" class="form-select" form="filterForm">
                                 <option value="recent" <?php echo $filters['sort_by'] === 'recent' ? 'selected' : ''; ?>>
                                     Most Recent
                                 </option>
@@ -244,8 +245,18 @@ $flash = getFlashMessage();
                         </div>
                     </div>
 
+                    <!-- Loading Overlay -->
+                    <div id="loadingOverlay" class="d-none text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="text-muted mt-2">Searching properties...</p>
+                    </div>
+
                     <!-- Properties Grid -->
+                    <div id="propertiesGrid" class="row">
                     <?php if (empty($properties)): ?>
+                        <div class="col-12">
                         <div class="text-center py-5">
                             <i class="fas fa-search fa-5x text-muted mb-4"></i>
                             <h3 class="text-muted">No properties found</h3>
@@ -254,11 +265,11 @@ $flash = getFlashMessage();
                                 <i class="fas fa-redo"></i> Clear Filters
                             </a>
                         </div>
+                        </div>
                     <?php else: ?>
-                        <div class="row" id="propertiesGrid" data-user-logged-in="true" data-wishlist-ids='<?php echo json_encode($wishlistIds); ?>'>
                             <?php foreach ($properties as $property): ?>
-                                <div class="col-md-6 col-lg-4 mb-4" data-property-id="<?php echo $property['id']; ?>">
-                                    <div class="card property-card h-100">
+                                <div class="col-md-6 col-lg-4 property-card-wrapper">
+                                    <div class="card property-card h-100 shadow-sm">
                                         <!-- Property Image -->
                                         <div class="property-image-wrapper">
                                             <?php if ($property['main_image']): ?>
@@ -354,9 +365,11 @@ $flash = getFlashMessage();
                                     </div>
                                 </div>
                             <?php endforeach; ?>
-                        </div>
+                    <?php endif; ?>
+                    </div>
 
                         <!-- Pagination -->
+                        <div id="paginationContainer">
                         <?php if ($totalPages > 1): ?>
                             <nav aria-label="Property pagination">
                                 <ul class="pagination justify-content-center">
@@ -390,7 +403,7 @@ $flash = getFlashMessage();
                                 </ul>
                             </nav>
                         <?php endif; ?>
-                    <?php endif; ?>
+                        </div>
 
                 </div>
             </main>
@@ -407,5 +420,6 @@ $flash = getFlashMessage();
     </script>
     <script src="../js/dashboard.js"></script>
     <script src="../js/wishlist.js"></script>
+    <script src="../js/property_search.js"></script>
 </body>
 </html>
