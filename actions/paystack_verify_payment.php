@@ -131,26 +131,42 @@ try {
     $conn->begin_transaction();
 
     try {
-        // Record payment in payments table
+        // Check if payment already exists (prevent duplicate processing)
         $stmt = $conn->prepare("
-            INSERT INTO payments
-            (booking_id, student_id, property_id, amount, payment_method, payment_reference,
-             authorization_code, payment_status, paid_at, created_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+            SELECT id, payment_status FROM payments WHERE payment_reference = ?
         ");
-
-        $payment_status_db = 'completed';
-        $stmt->bind_param("iiidsssss",
-            $booking_id, $student_id, $property_id, $amount_paid,
-            $payment_method, $reference, $authorization_code, $payment_status_db, $paid_at
-        );
-
-        if (!$stmt->execute()) {
-            throw new Exception("Failed to record payment: " . $stmt->error);
-        }
-
-        $payment_id = $stmt->insert_id;
+        $stmt->bind_param("s", $reference);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $existing_payment = $result->fetch_assoc();
         $stmt->close();
+
+        if ($existing_payment) {
+            // Payment already recorded - just return success
+            $payment_id = $existing_payment['id'];
+            $conn->commit();
+        } else {
+            // Record payment in payments table
+            $stmt = $conn->prepare("
+                INSERT INTO payments
+                (booking_id, student_id, property_id, amount, payment_method, payment_reference,
+                 authorization_code, payment_status, paid_at, created_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+            ");
+
+            $payment_status_db = 'completed';
+            $stmt->bind_param("iiidsssss",
+                $booking_id, $student_id, $property_id, $amount_paid,
+                $payment_method, $reference, $authorization_code, $payment_status_db, $paid_at
+            );
+
+            if (!$stmt->execute()) {
+                throw new Exception("Failed to record payment: " . $stmt->error);
+            }
+
+            $payment_id = $stmt->insert_id;
+            $stmt->close();
+        }
 
         // If booking exists, update it
         if ($booking_id > 0) {
