@@ -119,8 +119,8 @@ define('APP_DESCRIPTION', 'Safe Student Housing Platform for Kenyan Universities
 if (ENVIRONMENT === 'development') {
     define('BASE_URL', 'http://localhost/campus_digs');
 } else {
-    // Production URL - Update this with your actual server URL
-    define('BASE_URL', 'https://your-server-url.com/campus_digs');
+    // Production URL - Actual server URL
+    define('BASE_URL', 'http://169.239.251.102:442/~monicah.lekupe/ecom_finalproject');
 }
 
 // Directory paths
