@@ -86,18 +86,39 @@ function paystack_initialize_transaction($amount, $email, $reference, $metadata 
     $response = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $curl_error = curl_error($ch);
+    $curl_errno = curl_errno($ch);
     curl_close($ch);
 
+    // Log errors for debugging
     if ($curl_error) {
-        return false;
+        error_log("Paystack CURL Error ($curl_errno): $curl_error");
+        return [
+            'status' => false,
+            'message' => "Connection error: $curl_error (Code: $curl_errno)"
+        ];
     }
 
     if ($http_code !== 200) {
-        return false;
+        error_log("Paystack HTTP Error: HTTP $http_code - Response: $response");
+        return [
+            'status' => false,
+            'message' => "Payment gateway returned error (HTTP $http_code)",
+            'http_code' => $http_code,
+            'response' => $response
+        ];
     }
 
     // Parse response
     $result = json_decode($response, true);
+
+    if ($result === null) {
+        error_log("Paystack JSON Parse Error: " . json_last_error_msg());
+        return [
+            'status' => false,
+            'message' => 'Invalid response from payment gateway'
+        ];
+    }
+
     return $result;
 }
 
@@ -123,18 +144,39 @@ function paystack_verify_transaction($reference) {
     $response = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $curl_error = curl_error($ch);
+    $curl_errno = curl_errno($ch);
     curl_close($ch);
 
+    // Log errors for debugging
     if ($curl_error) {
-        return false;
+        error_log("Paystack CURL Error ($curl_errno): $curl_error");
+        return [
+            'status' => false,
+            'message' => "Connection error: $curl_error (Code: $curl_errno)"
+        ];
     }
 
     if ($http_code !== 200) {
-        return false;
+        error_log("Paystack HTTP Error: HTTP $http_code - Response: $response");
+        return [
+            'status' => false,
+            'message' => "Payment gateway returned error (HTTP $http_code)",
+            'http_code' => $http_code,
+            'response' => $response
+        ];
     }
 
     // Parse response
     $result = json_decode($response, true);
+
+    if ($result === null) {
+        error_log("Paystack JSON Parse Error: " . json_last_error_msg());
+        return [
+            'status' => false,
+            'message' => 'Invalid response from payment gateway'
+        ];
+    }
+
     return $result;
 }
 
