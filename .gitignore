@@ -1,6 +1,4 @@
-# ===================================
 # Campus Digs - Git Ignore File
-# ===================================
 
 # Sensitive Configuration Files
 includes/db_cred.php
