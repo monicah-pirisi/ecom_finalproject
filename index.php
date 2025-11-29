@@ -157,6 +157,13 @@ $stats = [
         .hero-highlight {
             font-weight: 800;
             color: #fef3c7;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .hero-highlight:hover {
+            transform: scale(1.1);
+            text-shadow: 0 0 20px rgba(254, 243, 199, 0.8);
         }
 
         /* About Section with Background Image */
