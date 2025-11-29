@@ -28,8 +28,9 @@ function toggleWishlist(propertyId, button) {
     const originalIconClass = icon.className;
     icon.className = 'fas fa-spinner fa-spin';
 
-    // Send AJAX request (use root-relative path to work from any directory level)
-    fetch('/campus_digs/actions/toggle_wishlist.php?property_id=' + propertyId, {
+    // Send AJAX request (use BASE_URL to work on any server)
+    const baseUrl = window.BASE_URL || '/campus_digs';
+    fetch(baseUrl + '/actions/toggle_wishlist.php?property_id=' + propertyId, {
         method: 'GET',
         credentials: 'same-origin'
     })
