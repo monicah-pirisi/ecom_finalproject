@@ -76,7 +76,19 @@ try {
     $authorization = $transaction_data['authorization'] ?? [];
     $authorization_code = $authorization['authorization_code'] ?? '';
     $payment_method = $authorization['channel'] ?? 'card';
-    $paid_at = $transaction_data['paid_at'] ?? date('Y-m-d H:i:s');
+
+    // Convert Paystack ISO 8601 datetime to MySQL format
+    $paid_at_raw = $transaction_data['paid_at'] ?? null;
+    if ($paid_at_raw) {
+        try {
+            $datetime_obj = new DateTime($paid_at_raw);
+            $paid_at = $datetime_obj->format('Y-m-d H:i:s');
+        } catch (Exception $e) {
+            $paid_at = date('Y-m-d H:i:s');
+        }
+    } else {
+        $paid_at = date('Y-m-d H:i:s');
+    }
 
     // Extract metadata
     $metadata = $transaction_data['metadata'] ?? [];
