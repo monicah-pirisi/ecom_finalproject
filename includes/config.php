@@ -167,16 +167,8 @@ if (!file_exists(LANDLORD_DOCS_DIR)) {
 
 // PAYMENT CONFIGURATION (PAYSTACK) - Kenya Account
 
-// Paystack API keys - Kenya Account
-if (ENVIRONMENT === 'development') {
-    // Test keys for development
-    define('PAYSTACK_SECRET_KEY', 'sk_test_914dfc2481162415ff5c512260511569b00e73d7');
-    define('PAYSTACK_PUBLIC_KEY', 'pk_test_6b4a00d825eb974aad18ecf340d9daf6e3859aaf');
-} else {
-    // Production Paystack keys (replace with your live keys when going to production)
-    define('PAYSTACK_SECRET_KEY', 'sk_live_YOUR_LIVE_SECRET_KEY_HERE');
-    define('PAYSTACK_PUBLIC_KEY', 'pk_live_YOUR_LIVE_PUBLIC_KEY_HERE');
-}
+// NOTE: Paystack keys are now configured in includes/paystack_config.php
+// This prevents conflicts between development and production environments
 
 // Paystack API endpoint
 define('PAYSTACK_API_URL', 'https://api.paystack.co');
