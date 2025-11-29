@@ -100,7 +100,7 @@ $stats = [
         .hero-section {
             background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-gold) 100%);
             color: white;
-            padding: 100px 0 80px;
+            padding: 120px 0 100px;
             position: relative;
             overflow: hidden;
         }
@@ -143,9 +143,20 @@ $stats = [
             z-index: 2;
         }
 
-        .hero-content h1,
+        .hero-content h1 {
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+            font-size: 3.5rem;
+            line-height: 1.2;
+        }
+
         .hero-content p {
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            font-size: 1.3rem;
+        }
+
+        .hero-highlight {
+            font-weight: 800;
+            color: #fef3c7;
         }
 
         /* About Section with Background Image */
@@ -567,9 +578,39 @@ $stats = [
         }
 
         /* Responsive */
+        @media (max-width: 992px) {
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+
+            .hero-content p {
+                font-size: 1.15rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .hero-section {
-                padding: 60px 0 40px;
+                padding: 70px 0 50px;
+            }
+
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-content p {
+                font-size: 1.05rem;
+            }
+
+            .search-box {
+                padding: 20px;
+            }
+
+            .trust-badges {
+                padding: 15px;
+            }
+
+            .trust-badge {
+                margin-bottom: 15px;
             }
 
             .filter-sidebar {
@@ -578,6 +619,20 @@ $stats = [
 
             .stat-number {
                 font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .search-box {
+                padding: 15px;
             }
         }
     </style>
@@ -649,10 +704,10 @@ $stats = [
             <div class="row justify-content-center">
                 <div class="col-lg-10">
                     <h1 class="display-4 fw-bold text-center mb-4">
-                        Find Your Perfect Student Home
+                        Find Your <span class="hero-highlight">Perfect</span> Student <span class="hero-highlight">Home</span>
                     </h1>
                     <p class="lead text-center mb-5">
-                        Verified properties • Safe neighborhoods • Affordable prices
+                        <strong>Verified</strong> properties • <strong>Safe</strong> neighborhoods • <strong>Affordable</strong> prices
                     </p>
 
                     <!-- Quick Search Box -->
