@@ -4,41 +4,41 @@
  * Handles student booking operations (cancel, payment, etc.)
  */
 
-// Suppress errors and warnings to prevent HTML output before JSON
-error_reporting(E_ERROR | E_PARSE);
-ini_set('display_errors', 0);
+// Start session first if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-// Start output buffering to catch any stray output
-ob_start();
+// Include JSON handler
+require_once '../includes/json_handler.php';
 
-session_start();
-
-require_once '../includes/config.php';
-require_once '../includes/core.php';
-require_once '../controllers/booking_controller.php';
-
-// Clean output buffer and set JSON header
-ob_end_clean();
-header('Content-Type: application/json');
+try {
+    require_once '../includes/config.php';
+    require_once '../includes/core.php';
+    require_once '../controllers/booking_controller.php';
+} catch (Exception $e) {
+    sendJSON([
+        'success' => false,
+        'message' => 'Configuration error: ' . $e->getMessage()
+    ]);
+}
 
 // Check if user is logged in and is a student
 if (!isLoggedIn() || !isStudent()) {
-    echo json_encode([
+    sendJSON([
         'success' => false,
         'message' => 'Unauthorized access'
     ]);
-    exit();
 }
 
 $studentId = $_SESSION['user_id'];
 
 // Validate request method
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode([
+    sendJSON([
         'success' => false,
         'message' => 'Invalid request method'
     ]);
-    exit();
 }
 
 // Get action
@@ -47,11 +47,10 @@ $bookingId = isset($_POST['booking_id']) ? (int)$_POST['booking_id'] : 0;
 
 // Validate booking ID
 if (!$bookingId) {
-    echo json_encode([
+    sendJSON([
         'success' => false,
         'message' => 'Invalid booking ID'
     ]);
-    exit();
 }
 
 try {
@@ -65,20 +64,18 @@ try {
             break;
 
         default:
-            echo json_encode([
+            sendJSON([
                 'success' => false,
                 'message' => 'Invalid action'
             ]);
-            exit();
     }
 } catch (Exception $e) {
     error_log("Student booking action error: " . $e->getMessage());
 
-    echo json_encode([
+    sendJSON([
         'success' => false,
         'message' => $e->getMessage()
     ]);
-    exit();
 }
 
 /**
@@ -91,11 +88,10 @@ function handleCancelBooking($bookingId, $studentId) {
     $reason = isset($_POST['reason']) ? sanitizeInput($_POST['reason']) : '';
 
     if (empty($reason)) {
-        echo json_encode([
+        sendJSON([
             'success' => false,
             'message' => 'Please provide a reason for cancellation'
         ]);
-        exit();
     }
 
     // Cancel booking
@@ -105,7 +101,7 @@ function handleCancelBooking($bookingId, $studentId) {
         // Format refund amount
         $refundFormatted = formatCurrency($result['refund_amount']);
 
-        echo json_encode([
+        sendJSON([
             'success' => true,
             'message' => $result['message'],
             'refund_amount' => $result['refund_amount'],
@@ -113,13 +109,12 @@ function handleCancelBooking($bookingId, $studentId) {
             'details' => "You will receive a refund of {$refundFormatted} within 5-7 business days."
         ]);
     } else {
-        echo json_encode([
+        sendJSON([
             'success' => false,
             'message' => $result['message'],
             'refund_amount' => 0
         ]);
     }
-    exit();
 }
 
 /**
@@ -132,34 +127,30 @@ function handlePaymentConfirmation($bookingId, $studentId) {
     $paymentReference = isset($_POST['reference']) ? sanitizeInput($_POST['reference']) : '';
 
     if (empty($paymentReference)) {
-        echo json_encode([
+        sendJSON([
             'success' => false,
             'message' => 'Invalid payment reference'
         ]);
-        exit();
     }
 
     // Verify booking ownership
     $booking = getStudentBookingById($bookingId, $studentId);
 
     if (!$booking) {
-        echo json_encode([
+        sendJSON([
             'success' => false,
             'message' => 'Booking not found or access denied'
         ]);
-        exit();
     }
 
     // TODO: Integrate with Paystack API to verify payment
     // For now, return placeholder response
 
-    echo json_encode([
+    sendJSON([
         'success' => true,
         'message' => 'Payment verification is being processed. You will receive confirmation shortly.',
         'reference' => $paymentReference
     ]);
-
-    exit();
 }
 
 ?>

@@ -4,10 +4,13 @@
  * Handles approve and reject booking operations
  */
 
-// Include JSON handler first
-require_once '../includes/json_handler.php';
+// Start session first if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-session_start();
+// Include JSON handler
+require_once '../includes/json_handler.php';
 
 try {
     require_once '../includes/config.php';
@@ -32,11 +35,10 @@ $landlordId = $_SESSION['user_id'];
 
 // Validate request method
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode([
+    sendJSON([
         'success' => false,
         'message' => 'Invalid request method'
     ]);
-    exit();
 }
 
 // Get action
@@ -45,11 +47,10 @@ $bookingId = isset($_POST['booking_id']) ? (int)$_POST['booking_id'] : 0;
 
 // Validate booking ID
 if (!$bookingId) {
-    echo json_encode([
+    sendJSON([
         'success' => false,
         'message' => 'Invalid booking ID'
     ]);
-    exit();
 }
 
 try {
@@ -67,20 +68,18 @@ try {
             break;
 
         default:
-            echo json_encode([
+            sendJSON([
                 'success' => false,
                 'message' => 'Invalid action'
             ]);
-            exit();
     }
 } catch (Exception $e) {
     error_log("Booking action error: " . $e->getMessage());
 
-    echo json_encode([
+    sendJSON([
         'success' => false,
         'message' => $e->getMessage()
     ]);
-    exit();
 }
 
 /**
@@ -93,17 +92,16 @@ function handleApproveBooking($bookingId, $landlordId) {
     $success = approveBooking($bookingId, $landlordId);
 
     if ($success) {
-        echo json_encode([
+        sendJSON([
             'success' => true,
             'message' => 'Booking approved successfully! The student will be notified.'
         ]);
     } else {
-        echo json_encode([
+        sendJSON([
             'success' => false,
             'message' => 'Failed to approve booking. Please try again or contact support.'
         ]);
     }
-    exit();
 }
 
 /**
@@ -116,28 +114,26 @@ function handleRejectBooking($bookingId, $landlordId) {
     $reason = isset($_POST['reason']) ? sanitizeInput($_POST['reason']) : '';
 
     if (empty($reason)) {
-        echo json_encode([
+        sendJSON([
             'success' => false,
             'message' => 'Please provide a reason for rejection'
         ]);
-        exit();
     }
 
     // Reject booking
     $success = rejectBooking($bookingId, $landlordId, $reason);
 
     if ($success) {
-        echo json_encode([
+        sendJSON([
             'success' => true,
             'message' => 'Booking rejected successfully. The student will be notified.'
         ]);
     } else {
-        echo json_encode([
+        sendJSON([
             'success' => false,
             'message' => 'Failed to reject booking. Please try again or contact support.'
         ]);
     }
-    exit();
 }
 
 /**
@@ -150,17 +146,16 @@ function handleCompleteBooking($bookingId, $landlordId) {
     $success = completeBooking($bookingId, $landlordId);
 
     if ($success) {
-        echo json_encode([
+        sendJSON([
             'success' => true,
             'message' => 'Booking marked as completed successfully!'
         ]);
     } else {
-        echo json_encode([
+        sendJSON([
             'success' => false,
             'message' => 'Failed to complete booking. Please try again or contact support.'
         ]);
     }
-    exit();
 }
 
 ?>
