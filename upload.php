@@ -6,9 +6,9 @@
  * SECURITY WARNING: This file should be deleted after use or protected with authentication!
  */
 
-// Enable error reporting for debugging
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Suppress PHP errors from displaying on page
+error_reporting(0);
+ini_set('display_errors', 0);
 
 // Simple password protection (CHANGE THIS PASSWORD!)
 define('UPLOAD_PASSWORD', 'campusdigs2025'); // CHANGE THIS!
@@ -45,8 +45,26 @@ if (isset($_GET['logout'])) {
 // Handle file upload
 $message = '';
 $uploadedFiles = [];
+$hasPermissionError = false;
 
-if ($isAuthenticated && isset($_FILES['files'])) {
+// Check directory permissions first
+if ($isAuthenticated) {
+    if (!is_dir($uploadDir)) {
+        $message = "<strong>⚠️ Directory Error:</strong> The uploads/properties directory does not exist.<br>";
+        $message .= "Please create it manually or ask your server administrator.";
+    } elseif (!is_writable($uploadDir)) {
+        $hasPermissionError = true;
+        $message = "<strong>🔒 Permission Error:</strong> The web server cannot write to the uploads/properties directory.<br><br>";
+        $message .= "<strong>To fix this, run these commands on your server:</strong><br>";
+        $message .= "<code>chmod 777 " . realpath($uploadDir) . "</code><br><br>";
+        $message .= "<strong>Or contact your server administrator to:</strong><br>";
+        $message .= "1. Set write permissions for the uploads directory<br>";
+        $message .= "2. Change ownership to the web server user (usually www-data or apache)<br><br>";
+        $message .= "<strong>Current directory path:</strong> <code>" . realpath($uploadDir) . "</code>";
+    }
+}
+
+if ($isAuthenticated && isset($_FILES['files']) && !$hasPermissionError) {
     $files = $_FILES['files'];
     $fileCount = count($files['name']);
 
@@ -74,15 +92,30 @@ if ($isAuthenticated && isset($_FILES['files'])) {
             $newFileName = uniqid('property_') . '_' . time() . '.' . $fileExt;
             $destination = $uploadDir . $newFileName;
 
-            // Move uploaded file
-            if (move_uploaded_file($fileTmpName, $destination)) {
+            // Move uploaded file (suppress PHP warnings)
+            if (@move_uploaded_file($fileTmpName, $destination)) {
                 $uploadedFiles[] = $newFileName;
                 $message .= "✅ {$fileName} uploaded successfully as {$newFileName}<br>";
             } else {
-                $message .= "❌ {$fileName}: Failed to upload.<br>";
+                $message .= "❌ {$fileName}: Upload failed. Check server permissions.<br>";
             }
         } else {
-            $message .= "❌ {$files['name'][$i]}: Upload error.<br>";
+            $errorMsg = '';
+            switch ($files['error'][$i]) {
+                case UPLOAD_ERR_INI_SIZE:
+                case UPLOAD_ERR_FORM_SIZE:
+                    $errorMsg = 'File too large';
+                    break;
+                case UPLOAD_ERR_PARTIAL:
+                    $errorMsg = 'Partial upload';
+                    break;
+                case UPLOAD_ERR_NO_FILE:
+                    $errorMsg = 'No file';
+                    break;
+                default:
+                    $errorMsg = 'Upload error';
+            }
+            $message .= "❌ {$files['name'][$i]}: {$errorMsg}.<br>";
         }
     }
 }
@@ -235,10 +268,10 @@ if (is_dir($uploadDir)) {
 </head>
 <body>
     <div class="container">
-        <h1>📤 CampusDigs File Upload Utility</h1>
+        <h1>CampusDigs File Upload Utility</h1>
 
         <div class="warning">
-            <strong>⚠️ SECURITY WARNING:</strong>
+            <strong>SECURITY WARNING:</strong>
             This file should be deleted after use or protected with a strong password!<br>
             Default password: <code>campusdigs2025</code> (Change in upload.php line 13)
         </div>
