@@ -85,7 +85,7 @@ $wishlistCount = getWishlistCount($studentId);
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="view/student_payments.php">
+                            <a class="nav-link" href="view/payment_history.php">
                                 <i class="fas fa-credit-card"></i> Payments
                             </a>
                         </li>
