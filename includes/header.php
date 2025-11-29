@@ -7,7 +7,17 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
     <div class="container-fluid">
         <!-- Brand/Logo -->
-        <a class="navbar-brand" href="<?php echo BASE_URL; ?>">
+        <a class="navbar-brand" href="<?php
+            if (isStudent()) {
+                echo BASE_URL . '/dashboard_student.php';
+            } elseif (isLandlord()) {
+                echo BASE_URL . '/dashboard_landlord.php';
+            } elseif (isAdmin()) {
+                echo BASE_URL . '/dashboard_admin.php';
+            } else {
+                echo BASE_URL;
+            }
+        ?>">
             <i class="fas fa-home text-primary"></i>
             <strong class="text-primary">CampusDigs</strong>
         </a>
