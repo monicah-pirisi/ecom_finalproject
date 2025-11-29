@@ -10,20 +10,14 @@
  */
 
 // Paystack API Keys - Kenya Account
-// For production: Use environment variables or replace test keys with live keys
+// Using TEST keys for now (replace with LIVE keys when ready for production payments)
 if (!defined('PAYSTACK_SECRET_KEY')) {
-    $secret_key = getenv('PAYSTACK_SECRET_KEY_LIVE');
-    if (!$secret_key || ENVIRONMENT === 'development') {
-        $secret_key = 'sk_test_914dfc2481162415ff5c512260511569b00e73d7'; // Your test key
-    }
-    define('PAYSTACK_SECRET_KEY', $secret_key);
+    // Always use test keys for now
+    define('PAYSTACK_SECRET_KEY', 'sk_test_914dfc2481162415ff5c512260511569b00e73d7');
 }
 if (!defined('PAYSTACK_PUBLIC_KEY')) {
-    $public_key = getenv('PAYSTACK_PUBLIC_KEY_LIVE');
-    if (!$public_key || ENVIRONMENT === 'development') {
-        $public_key = 'pk_test_6b4a00d825eb974aad18ecf340d9daf6e3859aaf'; // Your test key
-    }
-    define('PAYSTACK_PUBLIC_KEY', $public_key);
+    // Always use test keys for now
+    define('PAYSTACK_PUBLIC_KEY', 'pk_test_6b4a00d825eb974aad18ecf340d9daf6e3859aaf');
 }
 
 // Paystack API Endpoints
