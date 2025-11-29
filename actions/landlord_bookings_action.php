@@ -4,30 +4,28 @@
  * Handles approve and reject booking operations
  */
 
-// Suppress errors and warnings to prevent HTML output before JSON
-error_reporting(E_ERROR | E_PARSE);
-ini_set('display_errors', 0);
-
-// Start output buffering to catch any stray output
-ob_start();
+// Include JSON handler first
+require_once '../includes/json_handler.php';
 
 session_start();
 
-require_once '../includes/config.php';
-require_once '../includes/core.php';
-require_once '../controllers/booking_controller.php';
-
-// Clean output buffer and set JSON header
-ob_end_clean();
-header('Content-Type: application/json');
+try {
+    require_once '../includes/config.php';
+    require_once '../includes/core.php';
+    require_once '../controllers/booking_controller.php';
+} catch (Exception $e) {
+    sendJSON([
+        'success' => false,
+        'message' => 'Configuration error: ' . $e->getMessage()
+    ]);
+}
 
 // Check if user is logged in and is a landlord
 if (!isLoggedIn() || !isLandlord()) {
-    echo json_encode([
+    sendJSON([
         'success' => false,
         'message' => 'Unauthorized access'
     ]);
-    exit();
 }
 
 $landlordId = $_SESSION['user_id'];
