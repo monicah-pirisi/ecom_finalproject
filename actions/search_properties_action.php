@@ -4,13 +4,21 @@
  * Handles live property search and filtering without page reload
  */
 
+// Start output buffering to prevent any accidental output
+ob_start();
+
+// Disable error display and log errors instead
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+error_reporting(E_ALL);
+
+// Set JSON header immediately
+header('Content-Type: application/json');
+
 require_once '../includes/config.php';
 require_once '../includes/core.php';
 require_once '../controllers/property_controller.php';
 require_once '../controllers/wishlist_controller.php';
-
-// Set JSON header
-header('Content-Type: application/json');
 
 // Check if user is logged in (for wishlist functionality)
 $isLoggedIn = isLoggedIn();
@@ -191,6 +199,11 @@ try {
         $paginationHtml .= '</ul></nav>';
     }
 
+    // Clear output buffer before sending JSON
+    if (ob_get_level()) {
+        ob_end_clean();
+    }
+
     // Send JSON response
     echo json_encode([
         'success' => true,
@@ -203,6 +216,14 @@ try {
     ]);
 
 } catch (Exception $e) {
+    // Clear output buffer before sending error
+    if (ob_get_level()) {
+        ob_end_clean();
+    }
+
+    // Log the error
+    error_log("Search properties error: " . $e->getMessage());
+
     // Error handling
     http_response_code(500);
     echo json_encode([

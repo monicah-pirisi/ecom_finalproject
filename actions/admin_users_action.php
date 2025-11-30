@@ -4,6 +4,17 @@
  * Handles verify, suspend, reactivate, and delete user operations
  */
 
+// Start output buffering to prevent any accidental output
+ob_start();
+
+// Disable error display and log errors instead
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+error_reporting(E_ALL);
+
+// Set JSON header immediately
+header('Content-Type: application/json');
+
 // Start session first if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -17,6 +28,12 @@ try {
     require_once '../includes/core.php';
     require_once '../controllers/user_controller.php';
 } catch (Exception $e) {
+    // Clear any output buffer
+    ob_end_clean();
+
+    // Log the error
+    error_log("Admin users action config error: " . $e->getMessage());
+
     sendJSON([
         'success' => false,
         'message' => 'Configuration error: ' . $e->getMessage()

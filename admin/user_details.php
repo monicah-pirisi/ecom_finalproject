@@ -606,7 +606,7 @@ $activityLog = getUserActivityLog($userId, 10);
 
         // Delete User
         function deleteUser(userId) {
-            const confirmation1 = prompt('⚠️ WARNING: This will PERMANENTLY delete this account.\n\nType "DELETE" to confirm:');
+            const confirmation1 = prompt('WARNING: This will PERMANENTLY delete this account.\n\nType "DELETE" to confirm:');
 
             if (confirmation1 !== 'DELETE') {
                 alert('Deletion cancelled');

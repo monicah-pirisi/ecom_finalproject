@@ -50,11 +50,11 @@ $hasPermissionError = false;
 // Check directory permissions first
 if ($isAuthenticated) {
     if (!is_dir($uploadDir)) {
-        $message = "<strong>⚠️ Directory Error:</strong> The uploads/properties directory does not exist.<br>";
+        $message = "<strong>Directory Error:</strong> The uploads/properties directory does not exist.<br>";
         $message .= "Please create it manually or ask your server administrator.";
     } elseif (!is_writable($uploadDir)) {
         $hasPermissionError = true;
-        $message = "<strong>🔒 Permission Error:</strong> The web server cannot write to the uploads/properties directory.<br><br>";
+        $message = "<strong>Permission Error:</strong> The web server cannot write to the uploads/properties directory.<br><br>";
         $message .= "<strong>To fix this, run these commands on your server:</strong><br>";
         $message .= "<code>chmod 777 " . realpath($uploadDir) . "</code><br><br>";
         $message .= "<strong>Or contact your server administrator to:</strong><br>";
@@ -77,13 +77,13 @@ if ($isAuthenticated && isset($_FILES['files']) && !$hasPermissionError) {
 
             // Validate file type
             if (!in_array($fileType, $allowedTypes)) {
-                $message .= "❌ {$fileName}: Invalid file type. Only images allowed.<br>";
+                $message .= "[ERROR] {$fileName}: Invalid file type. Only images allowed.<br>";
                 continue;
             }
 
             // Validate file size
             if ($fileSize > $maxFileSize) {
-                $message .= "❌ {$fileName}: File too large. Max 5MB.<br>";
+                $message .= "[ERROR] {$fileName}: File too large. Max 5MB.<br>";
                 continue;
             }
 
@@ -95,9 +95,9 @@ if ($isAuthenticated && isset($_FILES['files']) && !$hasPermissionError) {
             // Move uploaded file (suppress PHP warnings)
             if (@move_uploaded_file($fileTmpName, $destination)) {
                 $uploadedFiles[] = $newFileName;
-                $message .= "✅ {$fileName} uploaded successfully as {$newFileName}<br>";
+                $message .= "[SUCCESS] {$fileName} uploaded successfully as {$newFileName}<br>";
             } else {
-                $message .= "❌ {$fileName}: Upload failed. Check server permissions.<br>";
+                $message .= "[ERROR] {$fileName}: Upload failed. Check server permissions.<br>";
             }
         } else {
             $errorMsg = '';
@@ -115,7 +115,7 @@ if ($isAuthenticated && isset($_FILES['files']) && !$hasPermissionError) {
                 default:
                     $errorMsg = 'Upload error';
             }
-            $message .= "❌ {$files['name'][$i]}: {$errorMsg}.<br>";
+            $message .= "[ERROR] {$files['name'][$i]}: {$errorMsg}.<br>";
         }
     }
 }
@@ -292,7 +292,7 @@ if (is_dir($uploadDir)) {
 
             <form method="POST" enctype="multipart/form-data">
                 <div class="upload-area" onclick="document.getElementById('fileInput').click()">
-                    <p style="font-size: 48px; margin-bottom: 10px;">📁</p>
+                    <p style="font-size: 48px; margin-bottom: 10px;">[+]</p>
                     <p style="color: #666; font-size: 16px;">Click to select images</p>
                     <p style="color: #999; font-size: 12px; margin-top: 5px;">JPG, PNG, GIF, WebP (Max 5MB each)</p>
                 </div>
@@ -308,7 +308,7 @@ if (is_dir($uploadDir)) {
 
             <?php if (!empty($uploadedFiles)): ?>
                 <div class="message">
-                    <strong>📋 To use these images in your properties:</strong><br>
+                    <strong>To use these images in your properties:</strong><br>
                     Copy these filenames to your property image fields:<br><br>
                     <?php foreach ($uploadedFiles as $file): ?>
                         <code style="display: block; padding: 5px; background: white; margin: 5px 0; border-radius: 4px;">
@@ -319,7 +319,7 @@ if (is_dir($uploadDir)) {
             <?php endif; ?>
 
             <div class="file-list">
-                <h3>📁 Uploaded Files (<?php echo count($existingFiles); ?>)</h3>
+                <h3>Uploaded Files (<?php echo count($existingFiles); ?>)</h3>
                 <div class="file-grid">
                     <?php foreach ($existingFiles as $file): ?>
                         <?php

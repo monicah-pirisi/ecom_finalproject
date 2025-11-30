@@ -249,10 +249,10 @@ function showWishlistNotification(message, type = 'info') {
     } else {
         // Fallback to simple alert
         const iconMap = {
-            success: '✓',
-            danger: '✗',
-            warning: '⚠',
-            info: 'ℹ'
+            success: 'OK',
+            danger: 'X',
+            warning: '!',
+            info: 'i'
         };
         alert(iconMap[type] + ' ' + message);
     }

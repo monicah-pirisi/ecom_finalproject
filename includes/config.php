@@ -175,7 +175,7 @@ define('PAYSTACK_API_URL', 'https://api.paystack.co');
 
 // Payment settings
 define('CURRENCY', 'KES');                               // Kenyan Shillings
-define('COMMISSION_RATE', 0.05);                         // 5% commission
+define('COMMISSION_RATE', 0.10);                         // 10% commission
 define('PROCESSING_FEE', 500);                           // KSh 500 processing fee
 
 // EMAIL CONFIGURATION
@@ -236,9 +236,9 @@ define('REFUND_TIER_3_DAYS', 15);                       // 15+ days
 define('REFUND_TIER_3_PERCENT', 0.00);                  // No refund
 
 // Verification badges
-define('VERIFIED_LANDLORD_BADGE', '✓ Verified Landlord');
-define('VERIFIED_STUDENT_BADGE', '✓ Verified Student');
-define('PREMIUM_LISTING_BADGE', '★ Premium');
+define('VERIFIED_LANDLORD_BADGE', 'Verified Landlord');
+define('VERIFIED_STUDENT_BADGE', 'Verified Student');
+define('PREMIUM_LISTING_BADGE', 'Premium');
 
 // PAGINATION SETTINGS
 
