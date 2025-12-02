@@ -430,7 +430,7 @@ requireLogin();
 
         <!-- Navigation Buttons -->
         <div class="text-center mt-5 mb-4">
-            <a href="<?php echo $_SESSION['user_type'] === 'student' ? '../index.php' : '../landlord/dashboard.php'; ?>" class="btn btn-outline-primary btn-lg me-3">
+            <a href="<?php echo $_SESSION['user_type'] === 'student' ? '../index.php' : '../dashboard_landlord.php'; ?>" class="btn btn-outline-primary btn-lg me-3">
                 <i class="fas fa-home"></i> Back to Home
             </a>
             <a href="support.php#faq" class="btn btn-primary btn-lg">

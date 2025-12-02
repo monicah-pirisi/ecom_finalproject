@@ -126,7 +126,9 @@
                         </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                         <li>
-                            <a class="dropdown-item" href="<?php echo BASE_URL; ?>/view/student_profile.php">
+                            <a class="dropdown-item" href="<?php
+                                echo BASE_URL . '/view/' . (isStudent() ? 'student_profile.php' : 'landlord_profile.php');
+                            ?>">
                                 <i class="fas fa-user"></i> My Profile
                             </a>
                         </li>
@@ -139,6 +141,11 @@
                         <li>
                             <a class="dropdown-item" href="<?php echo BASE_URL; ?>/view/help.php">
                                 <i class="fas fa-question-circle"></i> Help
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="<?php echo BASE_URL; ?>/view/support.php">
+                                <i class="fas fa-headset"></i> Support
                             </a>
                         </li>
                         <li><hr class="dropdown-divider"></li>

@@ -5,63 +5,76 @@
  * MVC Architecture - Controller Layer
  */
 
-// Start session
-session_start();
+// Suppress errors and warnings to prevent HTML output before JSON
+error_reporting(E_ERROR | E_PARSE);
+ini_set('display_errors', 0);
+
+// Start output buffering to catch any stray output
+ob_start();
 
 // Include required files
 require_once '../includes/config.php';
 require_once '../includes/core.php';
 require_once '../controllers/wishlist_controller.php';
 
+// Clean output buffer and set JSON header
+ob_end_clean();
+header('Content-Type: application/json');
+
 // Check if user is logged in
 if (!isLoggedIn()) {
-    $_SESSION['error'] = 'Please login to access wishlist';
-    header('Location: ../view/login.php');
+    echo json_encode([
+        'success' => false,
+        'message' => 'Please login to access wishlist'
+    ]);
     exit();
 }
 
 // Check if student
 if (!isStudent()) {
-    $_SESSION['error'] = 'Only students can use wishlist';
-    header('Location: ../index.php');
+    echo json_encode([
+        'success' => false,
+        'message' => 'Only students can use wishlist'
+    ]);
     exit();
 }
 
 // Validate request method (should be POST for destructive actions)
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    $_SESSION['error'] = 'Invalid request method';
-    header('Location: ../view/student_wishlist.php');
+    echo json_encode([
+        'success' => false,
+        'message' => 'Invalid request method'
+    ]);
     exit();
 }
 
 // Get student ID
 $studentId = $_SESSION['user_id'];
 
-// Confirm action (check for confirmation parameter)
-$confirm = isset($_POST['confirm']) && $_POST['confirm'] === 'yes';
-
-if (!$confirm) {
-    $_SESSION['error'] = 'Please confirm that you want to clear your wishlist';
-    header('Location: ../view/student_wishlist.php');
-    exit();
-}
-
-// Clear entire wishlist
+// Clear entire wishlist (confirmation is handled by JavaScript confirm dialog)
 try {
     $success = clearWishlist($studentId);
 
     if ($success) {
-        $_SESSION['success'] = 'Your wishlist has been cleared successfully';
+        echo json_encode([
+            'success' => true,
+            'message' => 'Your wishlist has been cleared successfully',
+            'wishlist_count' => 0
+        ]);
     } else {
-        $_SESSION['error'] = 'Failed to clear wishlist. Please try again.';
+        echo json_encode([
+            'success' => false,
+            'message' => 'Failed to clear wishlist. Please try again.'
+        ]);
     }
 
 } catch (Exception $e) {
     error_log("Wishlist clear error: " . $e->getMessage());
-    $_SESSION['error'] = 'An error occurred. Please try again.';
+    echo json_encode([
+        'success' => false,
+        'message' => 'An error occurred. Please try again.'
+    ]);
 }
 
-// Redirect back to wishlist
-header('Location: ../view/student_wishlist.php');
 exit();
 ?>

@@ -58,6 +58,9 @@ $flash = getFlashMessage();
                             <a class="nav-link" href="student_profile.php"><i class="fas fa-user"></i> My Profile</a>
                         </li>
                         <li class="nav-item mt-3">
+                            <a class="nav-link text-muted" href="help.php"><i class="fas fa-question-circle"></i> Help & Support</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-danger" href="../login/logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
                         </li>
                     </ul>
