@@ -8,6 +8,7 @@
 // Include required files FIRST (they handle sessions)
 require_once '../includes/config.php';
 require_once '../includes/core.php';
+require_once '../controllers/user_controller.php';
 require_once '../controllers/wishlist_controller.php';
 
 // NOW suppress errors and set JSON header
