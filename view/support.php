@@ -261,7 +261,7 @@ require_once '../includes/core.php';
             <a href="help.php" class="btn btn-primary btn-lg me-2">
                 <i class="fas fa-question-circle"></i> Help Center
             </a>
-            <a href="../index.php" class="btn btn-outline-primary btn-lg me-2">
+            <a href="<?php echo $_SESSION['user_type'] === 'student' ? '../dashboard_student.php' : '../dashboard_landlord.php'; ?>" class="btn btn-outline-primary btn-lg me-2">
                 <i class="fas fa-home"></i> Back to Home
             </a>
             <a href="javascript:history.back()" class="btn btn-light btn-lg">

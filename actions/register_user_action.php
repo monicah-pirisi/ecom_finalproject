@@ -157,10 +157,23 @@ if ($userId) {
     
     // Regenerate session ID for security
     regenerateSession();
-    
+
+    // MERGE GUEST WISHLIST: If new user is a student and has items in guest wishlist, merge them
+    if ($userType === 'student') {
+        $guestWishlistCount = getGuestWishlistCount();
+        if ($guestWishlistCount > 0) {
+            // Merge guest wishlist with new user's database wishlist
+            $merged = mergeGuestWishlistWithUser($userId);
+            if ($merged) {
+                // Log the merge activity
+                logActivity($userId, 'wishlist_merged', "Merged {$guestWishlistCount} properties from guest session on registration");
+            }
+        }
+    }
+
     // Send welcome email (optional - implement later)
     // sendWelcomeEmail($email, $fullName);
-    
+
     // Redirect to appropriate dashboard
     if ($userType === 'student') {
         redirectWithMessage('../dashboard_student.php', 'Welcome to CampusDigs! Your account has been created successfully.', 'success');

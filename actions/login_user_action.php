@@ -124,6 +124,19 @@ if ($user) {
         setcookie('remember_token', $token, time() + (30 * 24 * 60 * 60), '/', '', false, true);
     }
 
+    // MERGE GUEST WISHLIST: If user is a student and has items in guest wishlist, merge them
+    if ($user['user_type'] === 'student') {
+        $guestWishlistCount = getGuestWishlistCount();
+        if ($guestWishlistCount > 0) {
+            // Merge guest wishlist with user's database wishlist
+            $merged = mergeGuestWishlistWithUser($user['id']);
+            if ($merged) {
+                // Log the merge activity
+                logActivity($user['id'], 'wishlist_merged', "Merged {$guestWishlistCount} properties from guest session");
+            }
+        }
+    }
+
     // Redirect to appropriate dashboard based on user type
     if ($user['user_type'] === 'admin') {
         redirectWithMessage('../dashboard_admin.php', 'Welcome back, ' . $user['full_name'] . '!', 'success');

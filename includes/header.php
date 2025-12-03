@@ -31,6 +31,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <?php if (isStudent()): ?>
+                    <!-- Student Navigation -->
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo BASE_URL; ?>/view/all_properties.php">
                             <i class="fas fa-search"></i> Browse
@@ -76,6 +77,25 @@
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo BASE_URL; ?>/admin/reports.php">
                             <i class="fas fa-chart-line"></i> Reports
+                        </a>
+                    </li>
+                <?php else: ?>
+                    <!-- Guest User Navigation (not logged in) -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo BASE_URL; ?>/view/all_properties.php">
+                            <i class="fas fa-search"></i> Browse Properties
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo BASE_URL; ?>/view/guest_wishlist.php">
+                            <i class="fas fa-heart"></i> Wishlist
+                            <?php
+                            // Show guest wishlist count if they have items
+                            $guestCount = getGuestWishlistCount();
+                            if ($guestCount > 0):
+                            ?>
+                                <span class="badge bg-danger rounded-pill"><?php echo $guestCount; ?></span>
+                            <?php endif; ?>
                         </a>
                     </li>
                 <?php endif; ?>

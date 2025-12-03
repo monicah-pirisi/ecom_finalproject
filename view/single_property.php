@@ -538,11 +538,15 @@ $semesterTotal = ($property['price_monthly'] * 4) + $property['security_deposit'
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+
+    <script>
+        window.BASE_URL = '<?php echo BASE_URL; ?>';
+    </script>
+
     <!-- Custom JS -->
     <script src="../js/dashboard.js"></script>
     <script src="../js/wishlist.js"></script>
-    
+
     <script>
         // Store all images
         const propertyImages = [

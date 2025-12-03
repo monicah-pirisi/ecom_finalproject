@@ -1,46 +1,32 @@
 <?php
 /**
  * CampusDigs Kenya - Remove from Wishlist Action
- * Removes a property from student's wishlist
+ * Removes a property from wishlist (supports both logged-in users and guests)
  * MVC Architecture - Controller Layer
  */
 
-// Suppress errors and warnings to prevent HTML output before JSON
-error_reporting(E_ERROR | E_PARSE);
-ini_set('display_errors', 0);
-
-// Start output buffering to catch any stray output
-ob_start();
-
-// Include required files
+// Include required files FIRST (they handle sessions)
 require_once '../includes/config.php';
 require_once '../includes/core.php';
 require_once '../controllers/wishlist_controller.php';
 
-// Clean output buffer and set JSON header
-ob_end_clean();
+// NOW suppress errors and set JSON header
+error_reporting(E_ERROR | E_PARSE);
+ini_set('display_errors', 0);
 header('Content-Type: application/json');
 
-// Check if user is logged in
-if (!isLoggedIn()) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Please login to access wishlist'
-    ]);
-    exit();
-}
+// Check if user is logged in or guest
+$isLoggedIn = isLoggedIn();
+$isGuest = !$isLoggedIn;
 
-// Check if student
-if (!isStudent()) {
+// If logged in, must be a student
+if ($isLoggedIn && !isStudent()) {
     echo json_encode([
         'success' => false,
         'message' => 'Only students can use wishlist'
     ]);
     exit();
 }
-
-// Get student ID
-$studentId = $_SESSION['user_id'];
 
 // Validate request method
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -65,21 +51,44 @@ if (!$propertyId) {
 
 // Remove from wishlist
 try {
-    $success = removeFromWishlist($studentId, $propertyId);
+    // GUEST USER: Remove from session wishlist
+    if ($isGuest) {
+        $success = removeFromGuestWishlist($propertyId);
 
-    if ($success) {
-        $wishlistCount = getWishlistCount($studentId);
+        if ($success) {
+            echo json_encode([
+                'success' => true,
+                'message' => 'Property removed from wishlist',
+                'wishlist_count' => getGuestWishlistCount(),
+                'is_guest' => true
+            ]);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Failed to remove property from wishlist'
+            ]);
+        }
+    }
+    // LOGGED-IN USER: Remove from database
+    else {
+        $studentId = $_SESSION['user_id'];
+        $success = removeFromWishlist($studentId, $propertyId);
 
-        echo json_encode([
-            'success' => true,
-            'message' => 'Property removed from wishlist',
-            'wishlist_count' => $wishlistCount
-        ]);
-    } else {
-        echo json_encode([
-            'success' => false,
-            'message' => 'Failed to remove property from wishlist'
-        ]);
+        if ($success) {
+            $wishlistCount = getWishlistCount($studentId);
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Property removed from wishlist',
+                'wishlist_count' => $wishlistCount,
+                'is_guest' => false
+            ]);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Failed to remove property from wishlist'
+            ]);
+        }
     }
 
 } catch (Exception $e) {

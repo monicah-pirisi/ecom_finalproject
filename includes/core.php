@@ -581,4 +581,136 @@ function getSystemSetting($key, $default = null) {
     }
 }
 
+// GUEST WISHLIST FUNCTIONS
+// These functions allow non-logged-in users to browse and save properties to wishlist
+
+/**
+ * Get guest wishlist from session
+ * Guest wishlist is stored in session as array of property IDs
+ * @return array Array of property IDs
+ */
+function getGuestWishlist() {
+    if (!isset($_SESSION['guest_wishlist'])) {
+        $_SESSION['guest_wishlist'] = [];
+    }
+    return $_SESSION['guest_wishlist'];
+}
+
+/**
+ * Add property to guest wishlist
+ * @param int $propertyId Property ID to add
+ * @return bool True if added successfully
+ */
+function addToGuestWishlist($propertyId) {
+    $propertyId = (int)$propertyId;
+
+    if ($propertyId <= 0) {
+        return false;
+    }
+
+    $wishlist = getGuestWishlist();
+
+    // Check if already in wishlist
+    if (in_array($propertyId, $wishlist)) {
+        return false; // Already exists
+    }
+
+    // Add to wishlist
+    $wishlist[] = $propertyId;
+    $_SESSION['guest_wishlist'] = $wishlist;
+
+    return true;
+}
+
+/**
+ * Remove property from guest wishlist
+ * @param int $propertyId Property ID to remove
+ * @return bool True if removed successfully
+ */
+function removeFromGuestWishlist($propertyId) {
+    $propertyId = (int)$propertyId;
+    $wishlist = getGuestWishlist();
+
+    // Find and remove the property ID
+    $key = array_search($propertyId, $wishlist);
+
+    if ($key !== false) {
+        unset($wishlist[$key]);
+        // Reindex array to remove gaps
+        $_SESSION['guest_wishlist'] = array_values($wishlist);
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ * Clear guest wishlist
+ * @return bool True always
+ */
+function clearGuestWishlist() {
+    $_SESSION['guest_wishlist'] = [];
+    return true;
+}
+
+/**
+ * Get guest wishlist count
+ * @return int Number of items in guest wishlist
+ */
+function getGuestWishlistCount() {
+    return count(getGuestWishlist());
+}
+
+/**
+ * Check if property is in guest wishlist
+ * @param int $propertyId Property ID to check
+ * @return bool True if in wishlist
+ */
+function isInGuestWishlist($propertyId) {
+    $propertyId = (int)$propertyId;
+    $wishlist = getGuestWishlist();
+    return in_array($propertyId, $wishlist);
+}
+
+/**
+ * Merge guest wishlist with user wishlist on login
+ * This function is called when a guest user logs in or registers
+ * @param int $userId User ID
+ * @return bool True if merge successful
+ */
+function mergeGuestWishlistWithUser($userId) {
+    $guestWishlist = getGuestWishlist();
+
+    // If guest has no wishlist items, nothing to merge
+    if (empty($guestWishlist)) {
+        return true;
+    }
+
+    // Import wishlist controller to use its functions
+    require_once dirname(__DIR__) . '/controllers/wishlist_controller.php';
+
+    $successCount = 0;
+
+    // Add each guest wishlist item to user's database wishlist
+    foreach ($guestWishlist as $propertyId) {
+        $result = addToWishlist($userId, $propertyId);
+        if ($result) {
+            $successCount++;
+        }
+    }
+
+    // Clear guest wishlist after merging
+    clearGuestWishlist();
+
+    return $successCount > 0;
+}
+
+/**
+ * Check if user is a guest (not logged in)
+ * @return bool True if user is guest
+ */
+function isGuest() {
+    return !isLoggedIn();
+}
+
 ?>
