@@ -120,11 +120,11 @@ $semesterTotal = ($property['price_monthly'] * 4) + $property['security_deposit'
         }
     </style>
 </head>
-<body>
+<body <?php if (isLoggedIn()): ?>data-user-logged-in="true"<?php endif; ?>>
     <!-- Include Header -->
     <?php include '../includes/header.php'; ?>
-    
-    <div class="container py-4" data-user-logged-in="true" data-property-id="<?php echo $propertyId; ?>">
+
+    <div class="container py-4" data-property-id="<?php echo $propertyId; ?>">
         <!-- Back Button -->
         <?php
         // Dynamic back button based on user type

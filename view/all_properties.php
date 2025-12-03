@@ -69,7 +69,7 @@ $flash = getFlashMessage();
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/dashboard.css">
 </head>
-<body>
+<body data-user-logged-in="true">
     <!-- Include Header -->
     <?php include '../includes/header.php'; ?>
     
@@ -268,7 +268,7 @@ $flash = getFlashMessage();
                         </div>
                     <?php else: ?>
                             <?php foreach ($properties as $property): ?>
-                                <div class="col-md-6 col-lg-4 property-card-wrapper">
+                                <div class="col-md-6 col-lg-4 property-card-wrapper" data-property-id="<?php echo $property['id']; ?>">
                                     <div class="card property-card h-100 shadow-sm">
                                         <!-- Property Image -->
                                         <div class="property-image-wrapper">
